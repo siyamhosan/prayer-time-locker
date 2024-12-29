@@ -5,6 +5,8 @@ const bodyParser = require("body-parser");
 const { scheduleLocks } = require("./app");
 const { getStore } = require("./store");
 const moment = require("moment");
+const fs = require("fs").promises;
+const path = require("path");
 require("dotenv").config();
 
 function getTimeUntil(targetTime) {
@@ -84,8 +86,39 @@ app.get("/status", (req, res) => {
   }
 });
 
+const CACHE_FILE = path.join(__dirname, "prayer-times-cache.json");
+
+async function readCache() {
+  try {
+    const data = await fs.readFile(CACHE_FILE, "utf8");
+    return JSON.parse(data);
+  } catch {
+    return { date: null, data: null };
+  }
+}
+
+async function writeCache(cache) {
+  await fs.writeFile(CACHE_FILE, JSON.stringify(cache), "utf8");
+}
+
+// Cleanup old cache files at midnight
+setInterval(async () => {
+  const today = new Date().toISOString().split("T")[0];
+  const cache = await readCache();
+  if (cache.date !== today) {
+    await writeCache({ date: null, data: null });
+  }
+}, 1000 * 60 * 60 * 3); // Check every hour
+
 app.get("/prayer-times", async (_, res) => {
   try {
+    const today = new Date().toISOString().split("T")[0];
+    const cache = await readCache();
+
+    if (cache.date === today && cache.data) {
+      return res.json(cache.data);
+    }
+
     const city = process.env.CITY ?? "Rajshahi";
     const response = await axios.get(
       "http://api.aladhan.com/v1/timingsByCity",
@@ -98,11 +131,13 @@ app.get("/prayer-times", async (_, res) => {
       }
     );
 
-    // console.log("Fetched prayer times successfully");
+    await writeCache({
+      date: today,
+      data: response.data.data,
+    });
 
     res.json(response.data.data);
   } catch (error) {
-    // console.error("Failed to fetch prayer times:", error);
     res.status(500).json({ error: "Failed to fetch prayer times" });
   }
 });

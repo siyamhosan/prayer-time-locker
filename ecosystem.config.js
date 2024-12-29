@@ -3,7 +3,6 @@ module.exports = {
     {
       name: "PrayerTimeLocker",
       script: "server.js",
-      watch: ".",
     },
   ],
 };
