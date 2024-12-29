@@ -6,7 +6,6 @@ const { scheduleLocks } = require("./app");
 const { getStore } = require("./store");
 const moment = require("moment");
 const fs = require("fs").promises;
-const path = require("path");
 require("dotenv").config();
 
 function getTimeUntil(targetTime) {
