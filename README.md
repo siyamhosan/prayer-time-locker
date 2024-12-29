@@ -15,7 +15,7 @@ A Node.js application that automatically locks your computer screen during Islam
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/siyamhosan/prayer-time-locker
 cd prayer-time-locker
 ```
 
