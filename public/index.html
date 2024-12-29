@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Namaj Time Locker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-900 min-h-screen py-4 sm:py-8 text-gray-100">
+    <div class="container mx-auto max-w-7xl px-3 sm:px-4">
+      <!-- Header -->
+      <div class="text-center mb-4 sm:mb-8">
+        <h1 class="text-2xl sm:text-4xl font-bold text-white mb-2">
+          Prayer Time Locker
+        </h1>
+        <p class="text-sm sm:text-base text-gray-400">
+          Schedule your system lock times for prayers
+        </p>
+      </div>
+
+      <!-- Main Content -->
+      <div class="grid gap-4 sm:gap-8 grid-cols-1 lg:grid-cols-2">
+        <!-- Left Column -->
+        <div class="space-y-4 sm:space-y-6">
+          <div id="prayerTimes" class=""></div>
+        </div>
+
+        <!-- Right Column -->
+        <div
+          class="bg-gray-800 rounded-lg sm:rounded-2xl p-4 sm:p-8 shadow-xl space-y-4 sm:space-y-8"
+        >
+          <!-- Header -->
+          <div class="flex items-center justify-center space-x-3">
+            <div class="bg-emerald-500/10 rounded-full p-2 sm:p-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 sm:h-8 sm:w-8 text-emerald-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-bold text-white">
+              Lock Schedule
+            </h2>
+          </div>
+
+          <!-- Time Inputs -->
+          <div id="timeInputs" class="space-y-3 sm:space-y-4">
+            <div class="grid gap-3 sm:gap-4">
+              <!-- Prayer Time Input Template -->
+              <template id="prayer-input-template">
+                <div
+                  class="prayer-time-input bg-gray-700/50 p-3 sm:p-4 rounded-lg hover:bg-gray-700/70 transition-colors"
+                >
+                  <div
+                    class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4"
+                  >
+                    <div class="w-full sm:w-32">
+                      <label
+                        class="block font-medium text-emerald-400 text-sm sm:text-base mb-0.5"
+                        >{{name}}</label
+                      >
+                      <span class="text-xs text-gray-400">{{description}}</span>
+                    </div>
+                    <input
+                      type="time"
+                      class="lock-time w-full sm:flex-1 p-2.5 sm:p-3 bg-gray-800 border border-gray-600 rounded-md focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-100 text-sm sm:text-base"
+                      aria-label="Set {{name}} prayer time"
+                    />
+                  </div>
+                </div>
+              </template>
+
+              <!-- Replace Time Inputs section with: -->
+              <div id="timeInputs" class="space-y-3 sm:space-y-4">
+                <div class="grid gap-3 sm:gap-4">
+                  <!-- Fajr -->
+                  <div
+                    class="prayer-time-input bg-gray-700/50 p-4 rounded-xl hover:bg-gray-700/70 transition-colors"
+                  >
+                    <div class="flex flex-row items-center gap-3 sm:gap-4">
+                      <div class="w-28 sm:w-32">
+                        <label
+                          for="fajr"
+                          class="block font-medium text-emerald-400 text-sm sm:text-base mb-0.5"
+                          >Fajr</label
+                        >
+                        <span class="text-xs text-gray-400">Dawn Prayer</span>
+                      </div>
+                      <input
+                        type="time"
+                        id="fajr"
+                        class="lock-time flex-1 min-h-[44px] p-2.5 sm:p-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-100 text-sm sm:text-base"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Dhuhr -->
+                  <div
+                    class="prayer-time-input bg-gray-700/50 p-4 rounded-xl hover:bg-gray-700/70 transition-colors"
+                  >
+                    <div class="flex flex-row items-center gap-3 sm:gap-4">
+                      <div class="w-28 sm:w-32">
+                        <label
+                          for="dhuhr"
+                          class="block font-medium text-emerald-400 text-sm sm:text-base mb-0.5"
+                          >Dhuhr</label
+                        >
+                        <span class="text-xs text-gray-400">Noon Prayer</span>
+                      </div>
+                      <input
+                        type="time"
+                        id="dhuhr"
+                        class="lock-time flex-1 min-h-[44px] p-2.5 sm:p-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-100 text-sm sm:text-base"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Asr -->
+                  <div
+                    class="prayer-time-input bg-gray-700/50 p-4 rounded-xl hover:bg-gray-700/70 transition-colors"
+                  >
+                    <div class="flex flex-row items-center gap-3 sm:gap-4">
+                      <div class="w-28 sm:w-32">
+                        <label
+                          for="asr"
+                          class="block font-medium text-emerald-400 text-sm sm:text-base mb-0.5"
+                          >Asr</label
+                        >
+                        <span class="text-xs text-gray-400"
+                          >Afternoon Prayer</span
+                        >
+                      </div>
+                      <input
+                        type="time"
+                        id="asr"
+                        class="lock-time flex-1 min-h-[44px] p-2.5 sm:p-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-100 text-sm sm:text-base"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Maghrib -->
+                  <div
+                    class="prayer-time-input bg-gray-700/50 p-4 rounded-xl hover:bg-gray-700/70 transition-colors"
+                  >
+                    <div class="flex flex-row items-center gap-3 sm:gap-4">
+                      <div class="w-28 sm:w-32">
+                        <label
+                          for="maghrib"
+                          class="block font-medium text-emerald-400 text-sm sm:text-base mb-0.5"
+                          >Maghrib</label
+                        >
+                        <span class="text-xs text-gray-400">Sunset Prayer</span>
+                      </div>
+                      <input
+                        type="time"
+                        id="maghrib"
+                        class="lock-time flex-1 min-h-[44px] p-2.5 sm:p-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-100 text-sm sm:text-base"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Isha -->
+                  <div
+                    class="prayer-time-input bg-gray-700/50 p-4 rounded-xl hover:bg-gray-700/70 transition-colors"
+                  >
+                    <div class="flex flex-row items-center gap-3 sm:gap-4">
+                      <div class="w-28 sm:w-32">
+                        <label
+                          for="isha"
+                          class="block font-medium text-emerald-400 text-sm sm:text-base mb-0.5"
+                          >Isha</label
+                        >
+                        <span class="text-xs text-gray-400">Night Prayer</span>
+                      </div>
+                      <input
+                        type="time"
+                        id="isha"
+                        class="lock-time flex-1 min-h-[44px] p-2.5 sm:p-3 bg-gray-800 border border-gray-600 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-gray-100 text-sm sm:text-base"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="space-y-3 sm:space-y-4 mt-4">
+            <button
+              id="setScheduleButton"
+              class="w-full bg-emerald-600 text-white py-3 sm:py-4 px-4 sm:px-6 rounded-lg text-sm sm:text-base font-medium hover:bg-emerald-700 transition-colors flex items-center justify-center gap-2 focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-emerald-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+              Set Lock Schedule
+            </button>
+            <div
+              id="status"
+              class="text-center text-xs sm:text-sm text-gray-400"
+            >
+              System will lock at scheduled prayer times
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
